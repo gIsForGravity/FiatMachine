@@ -1,0 +1,5 @@
+name: "FiatMachine"
+version: "0.1.0-SNAPSHOT"
+api-version: "1.16"
+main: "net.almostmc.FiatMachine.FiatPlugin"
+authors: [gIsForGravity, IDTheftnotajoke]
