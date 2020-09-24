@@ -2,6 +2,7 @@ package net.almostmc.FiatMachine.GUI;
 
 import net.almostmc.FiatMachine.FiatPlugin;
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
@@ -32,7 +33,7 @@ public class ChestGUIBuilder implements Listener {
 
     private Inventory inventory;
 
-    private List<Handler<ItemStack>> onClickHandlers = new ArrayList<>();
+    private List<Handler<ChestGUIClickEvent>> onClickHandlers = new ArrayList<>();
     private List<Handler<ChestGUIBuilder>> onCloseHandlers = new ArrayList<>();
 
     public ChestGUIBuilder SetItem(final ItemStack item, int slot) {
@@ -45,7 +46,7 @@ public class ChestGUIBuilder implements Listener {
         return this;
     }
 
-    public ChestGUIBuilder RegisterOnClickHandler(final Handler<ItemStack> onClick) {
+    public ChestGUIBuilder RegisterOnClickHandler(final Handler<ChestGUIClickEvent> onClick) {
         onClickHandlers.add(onClick);
         return this;
     }
@@ -65,16 +66,16 @@ public class ChestGUIBuilder implements Listener {
     }
 
     @EventHandler
-    public void onInventoryClick(InventoryClickEvent event) {
+    private void onInventoryClick(InventoryClickEvent event) {
         if (Objects.equals(event.getClickedInventory(), inventory)) {
-            for (Handler<ItemStack> eventHandler : onClickHandlers) {
-                eventHandler.onEvent(event.getCurrentItem());
+            for (Handler<ChestGUIClickEvent> eventHandler : onClickHandlers) {
+                eventHandler.onEvent(new ChestGUIClickEvent(event.getCurrentItem(), (Player) event.getWhoClicked()));
             }
         }
     }
 
     @EventHandler
-    public void onInventoryClose(InventoryCloseEvent event) {
+    private void onInventoryClose(InventoryCloseEvent event) {
         if (Objects.equals(event.getInventory(), inventory)) {
 
         }
