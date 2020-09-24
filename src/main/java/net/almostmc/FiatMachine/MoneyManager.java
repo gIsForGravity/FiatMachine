@@ -8,7 +8,8 @@ public class MoneyManager {
     static {
         FileConfiguration config = new ConfigurationBuilder("money.yml").Build();
 
-        if (config.contains("ironValue"))
+        // Probably not needed
+        /*if (config.contains("ironValue"))
             //noinspection ConstantConditions
             ironValue = new BigDecimal(config.getString("ironValue"));
         else
@@ -22,7 +23,7 @@ public class MoneyManager {
             //noinspection ConstantConditions
             diamondValue = new BigDecimal(config.getString("ironValue"));
         else
-            diamondValue = new BigDecimal("00000000.0000");
+            diamondValue = new BigDecimal("00000000.0000");*/
 
         if (config.contains("iron"))
             iron = config.getInt("iron");
@@ -40,16 +41,13 @@ public class MoneyManager {
         MoneyManager.config = config;
     }
 
-    private static BigDecimal ironValue;
-    private static BigDecimal goldValue;
-    private static BigDecimal diamondValue;
-
     private static int iron;
     private static int gold;
     private static int diamond;
 
     private static FileConfiguration config;
 
-    public static BigDecimal getIronValue() {return ironValue;}
-    public static BigDecimal getGoldValue() {return goldValue;}
+    public static int Iron() {return iron;}
+    public static int Gold() {return gold;}
+    public static int Diamond() {return diamond;}
 }
