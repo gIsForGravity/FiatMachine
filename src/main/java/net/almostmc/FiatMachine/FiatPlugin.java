@@ -1,6 +1,6 @@
 package net.almostmc.FiatMachine;
 
-import net.almostmc.FiatMachine.Commands.BankCommand;
+import net.almostmc.FiatMachine.Commands.BankCommand.BankCommand;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.Objects;
