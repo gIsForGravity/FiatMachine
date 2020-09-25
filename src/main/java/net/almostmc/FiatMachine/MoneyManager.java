@@ -2,9 +2,7 @@ package net.almostmc.FiatMachine;
 
 import org.bukkit.configuration.file.FileConfiguration;
 
-import java.math.BigDecimal;
-
-public class MoneyManager {
+public final class MoneyManager {
     static {
         FileConfiguration config = new ConfigurationBuilder("money.yml").Build();
 
