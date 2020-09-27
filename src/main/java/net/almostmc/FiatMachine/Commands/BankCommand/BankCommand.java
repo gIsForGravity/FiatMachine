@@ -49,6 +49,8 @@ public class BankCommand implements CommandExecutor {
                 .SetItem(sellBlock, 3)
                 .SetItem(buyBlock, 5)
                 .RegisterOnClickHandler(event -> {
+                    if (event.item == null) return;
+
                     if (event.item.equals(cancel))
                         event.clicker.closeInventory();
                     else if (event.item.equals(sellBlock))
@@ -104,6 +106,8 @@ public class BankCommand implements CommandExecutor {
                 .SetItem(gold, 4)
                 .SetItem(diamond, 5)
                 .RegisterOnClickHandler(event -> {
+                    if (event.item == null) return;
+
                     if (event.item.equals(cancel))
                         event.clicker.closeInventory();
                     else if (event.item.equals(iron))
@@ -191,6 +195,8 @@ public class BankCommand implements CommandExecutor {
                 .SetItem(block1, 5)
                 .SetItem(block10, 6)
                 .RegisterOnClickHandler(event -> {
+                    if (event.item == null) return;
+
                     if (event.item.equals(cancel))
                         event.clicker.closeInventory();
                     else if (event.item.equals(ore1))
