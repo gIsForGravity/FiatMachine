@@ -1,4 +1,4 @@
-package net.almostmc.FiatMachine.Commands.BankCommand;
+package net.almostmc.FiatMachine.Commands;
 
 import net.almostmc.FiatMachine.BankItemType;
 import net.almostmc.FiatMachine.GUI.ChestGUIBuilder;
@@ -19,7 +19,7 @@ public class BankCommand implements CommandExecutor {
         if (!(sender instanceof Player)) return false;
 
         try {
-            mainMenu((Player) sender);
+            chooseOreMenu((Player) sender);
             return true;
         } catch (Exception e) {
             e.printStackTrace();
@@ -27,58 +27,7 @@ public class BankCommand implements CommandExecutor {
         }
     }
 
-    private void mainMenu(Player player) {
-        ItemMeta metaCache;
-
-        ItemStack cancel = new ItemStack(Material.BARRIER);
-        metaCache = cancel.getItemMeta();
-        metaCache.setDisplayName("Cancel");
-        cancel.setItemMeta(metaCache);
-
-        ItemStack sellBlock = new ItemStack(Material.REDSTONE_BLOCK);
-        metaCache = sellBlock.getItemMeta();
-        metaCache.setDisplayName("Sell Ores");
-        sellBlock.setItemMeta(metaCache);
-
-        ItemStack buyBlock = new ItemStack(Material.EMERALD_BLOCK);
-        metaCache = buyBlock.getItemMeta();
-        metaCache.setDisplayName("Buy Ores");
-        buyBlock.setItemMeta(metaCache);
-
-        Inventory menu = new ChestGUIBuilder("Bank", ChestSize.NINE)
-                .SetItem(cancel, 0)
-                .SetItem(sellBlock, 3)
-                .SetItem(buyBlock, 5)
-                .RegisterOnClickHandler(event -> {
-                    if (event.item == null) return;
-
-                    if (event.item.equals(cancel))
-                        event.clicker.closeInventory();
-                    else if (event.item.equals(sellBlock))
-                        chooseOreMenu(event.clicker, BankTransactionType.SELL);
-                    else if (event.item.equals(buyBlock))
-                        chooseOreMenu(event.clicker, BankTransactionType.BUY);
-                }).RegisterOnCloseHandler(ChestGUIBuilder::Destroy)
-                .ToInventory();
-        player.openInventory(menu);
-    }
-
-    private void chooseOreMenu(Player player, BankTransactionType transactionType) {
-        String prefix;
-        switch (transactionType) {
-            case BUY:
-                prefix = "Buy";
-                break;
-            case SELL:
-                prefix = "Sell";
-                break;
-            default:
-                throw new IllegalStateException("Unexpected value: " + transactionType);
-        }
-        chooseOreMenu(player, transactionType, prefix);
-    }
-
-    private void chooseOreMenu(Player player, BankTransactionType transactionType, String prefix) {
+    private void chooseOreMenu(Player player) {
         ItemMeta metaCache;
 
         ItemStack cancel = new ItemStack(Material.BARRIER);
@@ -88,17 +37,17 @@ public class BankCommand implements CommandExecutor {
 
         ItemStack iron = new ItemStack(Material.IRON_INGOT);
         metaCache = iron.getItemMeta();
-        metaCache.setDisplayName(prefix + " Iron");
+        metaCache.setDisplayName("Trade in Iron");
         iron.setItemMeta(metaCache);
 
         ItemStack gold = new ItemStack(Material.GOLD_INGOT);
         metaCache = gold.getItemMeta();
-        metaCache.setDisplayName(prefix + " Gold");
+        metaCache.setDisplayName("Trade in Gold");
         gold.setItemMeta(metaCache);
 
         ItemStack diamond = new ItemStack(Material.DIAMOND);
         metaCache = diamond.getItemMeta();
-        metaCache.setDisplayName(prefix + " Diamond");
+        metaCache.setDisplayName("Trade in Diamonds");
         diamond.setItemMeta(metaCache);
 
         Inventory menu = new ChestGUIBuilder("Bank", ChestSize.NINE)
@@ -112,17 +61,17 @@ public class BankCommand implements CommandExecutor {
                     if (event.item.equals(cancel))
                         event.clicker.closeInventory();
                     else if (event.item.equals(iron))
-                        oreAmountMenu(event.clicker, transactionType, BankItemType.IRON);
+                        oreAmountMenu(event.clicker, BankItemType.IRON);
                     else if (event.item.equals(gold))
-                        oreAmountMenu(event.clicker, transactionType, BankItemType.GOLD);
+                        oreAmountMenu(event.clicker, BankItemType.GOLD);
                     else if (event.item.equals(diamond))
-                        oreAmountMenu(event.clicker, transactionType, BankItemType.DIAMOND);
+                        oreAmountMenu(event.clicker, BankItemType.DIAMOND);
                 }).RegisterOnCloseHandler(ChestGUIBuilder::Destroy)
                 .ToInventory();
         player.openInventory(menu);
     }
 
-    private void oreAmountMenu(Player player, BankTransactionType transactionType, BankItemType type) {
+    private void oreAmountMenu(Player player, BankItemType type) {
         Material oreMat;
         Material oreMatBlock;
         String oreName;
