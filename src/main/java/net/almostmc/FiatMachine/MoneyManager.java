@@ -10,9 +10,12 @@ import org.bukkit.plugin.RegisteredServiceProvider;
 import java.util.logging.Level;
 
 public final class MoneyManager {
+    // When MoneyManager is first called, initialize everything
     static {
+        // Load config into memory
         FileConfiguration config = new ConfigurationBuilder("money.yml").Build();
 
+        // Initialize iron, gold, and diamond values to the values in the config
         if (config.contains("iron"))
             iron = config.getLong("iron");
         else
@@ -26,8 +29,10 @@ public final class MoneyManager {
         else
             diamond = 0;
 
+        // Assign the config loaded earlier to the config variable so it can be accessed later
         MoneyManager.config = config;
 
+        //Load economy
         RegisteredServiceProvider<Economy> rsp = Bukkit.getServicesManager().getRegistration(Economy.class);
         if (rsp == null) {
             FiatPlugin.singleton.getLogger().log(Level.SEVERE, "There was an error retrieving the vault economy service. This is fatal. Shutting down");
@@ -40,13 +45,16 @@ public final class MoneyManager {
     private static long gold;
     private static long diamond;
 
+    // Used to save iron, gold, and diamond data
     private static FileConfiguration config;
+    // Used to manage player money
     private static Economy economy;
 
     public static long Iron() {return iron;}
     public static long Gold() {return gold;}
     public static long Diamond() {return diamond;}
 
+    // Convert mat to BankItemType and then call sellOre
     public static void sellOre(OfflinePlayer player, int amount, Material mat) {
         switch (mat) {
             case IRON_INGOT:
@@ -58,6 +66,9 @@ public final class MoneyManager {
             case DIAMOND:
                 sellOre(player, amount, BankItemType.DIAMOND);
                 break;
+
+            // If the item is a block instead of an ingot, multiply the amount
+            // by 9 because there are 9 ingots in a block
             case IRON_BLOCK:
                 sellOre(player, amount * 9, BankItemType.IRON);
                 break;
@@ -70,6 +81,7 @@ public final class MoneyManager {
         }
     }
 
+    // Sell (amount) amount of ore to the bank
     public static void sellOre(OfflinePlayer player, int amount, BankItemType ore) {
         if (!economy.hasAccount(player))
             economy.createPlayerAccount(player);
@@ -91,12 +103,14 @@ public final class MoneyManager {
         saveConfig();
     }
 
+    // Save money.yml
     private static void saveConfig() {
         config.set("iron", iron);
         config.set("gold", gold);
         config.set("diamond", diamond);
     }
 
+    // Use quadratic equation to calculate how much an ore is worth
     private static long calculateOreWorth(BankItemType ore) {
         long amount;
         switch (ore) {
@@ -113,6 +127,7 @@ public final class MoneyManager {
                 throw new IllegalStateException("Unexpected value: " + ore);
         }
 
+        // Calculate how much an ore is worth with the current values and round it
         return Math.round(((double) 50/(double) 16129)*(double) amount*2-((double)12800/(double)16129)*amount+((double) 1625650/(double) 16129));
     }
 }
