@@ -127,12 +127,12 @@ public class BankCommand implements CommandExecutor {
             metaCache.setDisplayName("64 " + oreName + "s");
         ore64.setItemMeta(metaCache);
 
-        ItemStack block1 = new ItemStack(oreMat, 1);
+        ItemStack block1 = new ItemStack(oreMatBlock, 1);
         metaCache = block1.getItemMeta();
         metaCache.setDisplayName("1 " + oreName + " Block");
         block1.setItemMeta(metaCache);
 
-        ItemStack block10 = new ItemStack(oreMat, 10);
+        ItemStack block10 = new ItemStack(oreMatBlock, 10);
         metaCache = block10.getItemMeta();
         metaCache.setDisplayName("10 " + oreName + " Blocks");
         block10.setItemMeta(metaCache);
