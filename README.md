@@ -1,8 +1,8 @@
-# FiatMachine
+# FiatMachine [UNFINISHED]
 
 ## Introduction
 
-A Spigot plugin that adds a fiat currency based on gold, diamonds, and iron.
+A Spigot plugin that adds a fiat currency that can be exchanged for iron, gold, and diamonds.
 
 ## Table of Contents
 
@@ -13,3 +13,4 @@ A Spigot plugin that adds a fiat currency based on gold, diamonds, and iron.
 ## Algorithm
 
 um... working on this part
+
