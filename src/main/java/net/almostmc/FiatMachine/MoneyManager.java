@@ -1,6 +1,5 @@
 package net.almostmc.FiatMachine;
 
-import net.md_5.bungee.chat.SelectorComponentSerializer;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -89,6 +88,13 @@ public final class MoneyManager {
                     break;
             }
         }
+        saveConfig();
+    }
+
+    private static void saveConfig() {
+        config.set("iron", iron);
+        config.set("gold", gold);
+        config.set("diamond", diamond);
     }
 
     private static long calculateOreWorth(BankItemType ore) {
