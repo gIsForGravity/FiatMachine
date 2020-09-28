@@ -1,5 +1,6 @@
 package net.almostmc.FiatMachine.Commands.BankCommand;
 
+import net.almostmc.FiatMachine.BankItemType;
 import net.almostmc.FiatMachine.GUI.ChestGUIBuilder;
 import net.almostmc.FiatMachine.GUI.ChestSize;
 import org.bukkit.Material;

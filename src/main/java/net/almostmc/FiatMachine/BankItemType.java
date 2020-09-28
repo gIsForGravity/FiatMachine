@@ -1,4 +1,4 @@
-package net.almostmc.FiatMachine.Commands.BankCommand;
+package net.almostmc.FiatMachine;
 
 public enum BankItemType {
     IRON,
