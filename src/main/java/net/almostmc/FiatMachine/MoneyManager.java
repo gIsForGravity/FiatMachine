@@ -3,6 +3,7 @@ package net.almostmc.FiatMachine;
 import net.md_5.bungee.chat.SelectorComponentSerializer;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.RegisteredServiceProvider;
@@ -46,6 +47,29 @@ public final class MoneyManager {
     public static long Iron() {return iron;}
     public static long Gold() {return gold;}
     public static long Diamond() {return diamond;}
+
+    public static void sellOre(OfflinePlayer player, int amount, Material mat) {
+        switch (mat) {
+            case IRON_INGOT:
+                sellOre(player, amount, BankItemType.IRON);
+                break;
+            case GOLD_INGOT:
+                sellOre(player, amount, BankItemType.GOLD);
+                break;
+            case DIAMOND:
+                sellOre(player, amount, BankItemType.DIAMOND);
+                break;
+            case IRON_BLOCK:
+                sellOre(player, amount * 9, BankItemType.IRON);
+                break;
+            case GOLD_BLOCK:
+                sellOre(player, amount * 9, BankItemType.GOLD);
+                break;
+            case DIAMOND_BLOCK:
+                sellOre(player, amount * 9, BankItemType.DIAMOND);
+                break;
+        }
+    }
 
     public static void sellOre(OfflinePlayer player, int amount, BankItemType ore) {
         if (!economy.hasAccount(player))

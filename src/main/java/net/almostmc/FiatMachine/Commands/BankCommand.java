@@ -3,6 +3,7 @@ package net.almostmc.FiatMachine.Commands;
 import net.almostmc.FiatMachine.BankItemType;
 import net.almostmc.FiatMachine.GUI.ChestGUIBuilder;
 import net.almostmc.FiatMachine.GUI.ChestSize;
+import net.almostmc.FiatMachine.MoneyManager;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -11,11 +12,12 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.jetbrains.annotations.NotNull;
 
 public class BankCommand implements CommandExecutor {
 
     @Override
-    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, String[] args) {
         if (!(sender instanceof Player)) return false;
 
         try {
@@ -159,18 +161,19 @@ public class BankCommand implements CommandExecutor {
 
                     if (event.item.equals(cancel))
                         event.clicker.closeInventory();
-                    else if (event.item.equals(ore1))
-                        return; // TODO
-                    else if (event.item.equals(ore10))
-                        return; // TODO
-                    else if (event.item.equals(ore64))
-                        return; // TODO
-                    else if (event.item.equals(block1))
-                        return; // TODO
-                    else if (event.item.equals(block10))
-                        return; // TODO
+                    else if ((event.item.equals(ore1)) ||
+                            (event.item.equals(ore10)) ||
+                            (event.item.equals(ore64)) ||
+                            (event.item.equals(block1)) ||
+                            (event.item.equals(block10)))
+                        if (playerHas(event.clicker, event.item.getType(), event.item.getAmount()))
+                            MoneyManager.sellOre(event.clicker, event.item.getAmount(), event.item.getType());
                 }).RegisterOnCloseHandler(ChestGUIBuilder::Destroy)
                 .ToInventory();
         player.openInventory(menu);
+    }
+
+    public static boolean playerHas(@NotNull Player player, Material material, int amount) {
+        return player.getInventory().contains(material, amount);
     }
 }
