@@ -32,21 +32,25 @@ public class BankCommand implements CommandExecutor {
 
         ItemStack cancel = new ItemStack(Material.BARRIER);
         metaCache = cancel.getItemMeta();
+        assert metaCache != null;
         metaCache.setDisplayName("Cancel");
         cancel.setItemMeta(metaCache);
 
         ItemStack iron = new ItemStack(Material.IRON_INGOT);
         metaCache = iron.getItemMeta();
+        assert metaCache != null;
         metaCache.setDisplayName("Trade in Iron");
         iron.setItemMeta(metaCache);
 
         ItemStack gold = new ItemStack(Material.GOLD_INGOT);
         metaCache = gold.getItemMeta();
+        assert metaCache != null;
         metaCache.setDisplayName("Trade in Gold");
         gold.setItemMeta(metaCache);
 
         ItemStack diamond = new ItemStack(Material.DIAMOND);
         metaCache = diamond.getItemMeta();
+        assert metaCache != null;
         metaCache.setDisplayName("Trade in Diamonds");
         diamond.setItemMeta(metaCache);
 
@@ -95,16 +99,18 @@ public class BankCommand implements CommandExecutor {
             default:
                 throw new IllegalStateException("Unexpected value: " + type);
         }
-        
+
         ItemMeta metaCache;
 
         ItemStack cancel = new ItemStack(Material.BARRIER);
         metaCache = cancel.getItemMeta();
+        assert metaCache != null;
         metaCache.setDisplayName("Cancel");
         cancel.setItemMeta(metaCache);
         
         ItemStack ore1 = new ItemStack(oreMat, 1);
         metaCache = ore1.getItemMeta();
+        assert metaCache != null;
         if (type == BankItemType.IRON || type == BankItemType.GOLD)
             metaCache.setDisplayName("1 " + oreName + " Ingot");
         else
@@ -113,6 +119,7 @@ public class BankCommand implements CommandExecutor {
         
         ItemStack ore10 = new ItemStack(oreMat, 10);
         metaCache = ore10.getItemMeta();
+        assert metaCache != null;
         if (type == BankItemType.IRON || type == BankItemType.GOLD)
             metaCache.setDisplayName("10 " + oreName + " Ingots");
         else
@@ -121,6 +128,7 @@ public class BankCommand implements CommandExecutor {
 
         ItemStack ore64 = new ItemStack(oreMat, 64);
         metaCache = ore64.getItemMeta();
+        assert metaCache != null;
         if (type == BankItemType.IRON || type == BankItemType.GOLD)
             metaCache.setDisplayName("64 " + oreName + " Ingots");
         else
@@ -129,11 +137,13 @@ public class BankCommand implements CommandExecutor {
 
         ItemStack block1 = new ItemStack(oreMatBlock, 1);
         metaCache = block1.getItemMeta();
+        assert metaCache != null;
         metaCache.setDisplayName("1 " + oreName + " Block");
         block1.setItemMeta(metaCache);
 
         ItemStack block10 = new ItemStack(oreMatBlock, 10);
         metaCache = block10.getItemMeta();
+        assert metaCache != null;
         metaCache.setDisplayName("10 " + oreName + " Blocks");
         block10.setItemMeta(metaCache);
 
