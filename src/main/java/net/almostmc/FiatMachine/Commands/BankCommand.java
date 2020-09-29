@@ -166,14 +166,41 @@ public class BankCommand implements CommandExecutor {
                             (event.item.equals(ore64)) ||
                             (event.item.equals(block1)) ||
                             (event.item.equals(block10)))
-                        if (playerHas(event.clicker, event.item.getType(), event.item.getAmount()))
+                        if (playerHas(event.clicker.getInventory(), event.item.getType(), event.item.getAmount())) {
+                            event.clicker.closeInventory();
+
                             MoneyManager.sellOre(event.clicker, event.item.getAmount(), event.item.getType());
+                        }
                 }).RegisterOnCloseHandler(ChestGUIBuilder::Destroy)
                 .ToInventory();
         player.openInventory(menu);
     }
 
-    public static boolean playerHas(@NotNull Player player, Material material, int amount) {
-        return player.getInventory().contains(material, amount);
+    // Check if the player has this much of the material in their inventory
+    public static boolean playerHas(Inventory inventory, Material material, int amount) {
+        return inventory.contains(material, amount);
+    }
+
+    // Remove this amount of this material from this player's inventory
+    public static void removeFromPlayerInv(Inventory inventory, Material material, int amount) {
+        int amountDestroyed = 0;
+
+        // Loop through every item in the inventory
+        for (int i = inventory.first(material); i < inventory.getSize(); i++) {
+            if (amountDestroyed == amount) break;
+
+            ItemStack item = inventory.getItem(i);
+            if (item != null)
+            if (item.getType() == material) { // If item is of the type we're looking for, remove the right amount
+                                              // from the itemstack
+                if (item.getAmount() > (amount - amountDestroyed)) {
+                    item.setAmount(item.getAmount() - (amount - amountDestroyed));
+                    amountDestroyed += amount - amountDestroyed;
+                } else if (item.getAmount() >= (amount - amountDestroyed)) {
+                    amountDestroyed += item.getAmount();
+                    inventory.clear(i);
+                }
+            }
+        }
     }
 }
