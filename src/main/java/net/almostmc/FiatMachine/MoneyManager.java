@@ -55,39 +55,38 @@ public final class MoneyManager {
     public static long Diamond() {return diamond;}
 
     // Convert mat to BankItemType and then call sellOre
-    public static void sellOre(OfflinePlayer player, int amount, Material mat) {
+    public static long sellOre(OfflinePlayer player, int amount, Material mat) {
         switch (mat) {
             case IRON_INGOT:
-                sellOre(player, amount, BankItemType.IRON);
-                break;
+                return sellOre(player, amount, BankItemType.IRON);
             case GOLD_INGOT:
-                sellOre(player, amount, BankItemType.GOLD);
-                break;
+                return sellOre(player, amount, BankItemType.GOLD);
             case DIAMOND:
-                sellOre(player, amount, BankItemType.DIAMOND);
-                break;
+                return sellOre(player, amount, BankItemType.DIAMOND);
 
             // If the item is a block instead of an ingot, multiply the amount
             // by 9 because there are 9 ingots in a block
             case IRON_BLOCK:
-                sellOre(player, amount * 9, BankItemType.IRON);
-                break;
+                return sellOre(player, amount * 9, BankItemType.IRON);
             case GOLD_BLOCK:
-                sellOre(player, amount * 9, BankItemType.GOLD);
-                break;
+                return sellOre(player, amount * 9, BankItemType.GOLD);
             case DIAMOND_BLOCK:
-                sellOre(player, amount * 9, BankItemType.DIAMOND);
-                break;
+                return sellOre(player, amount * 9, BankItemType.DIAMOND);
+
+            default:
+                // If there is any other material inputted
+                throw new IllegalStateException("Unexpected value: " + mat);
         }
     }
 
     // Sell (amount) amount of ore to the bank
-    public static void sellOre(OfflinePlayer player, int amount, BankItemType ore) {
+    public static long sellOre(OfflinePlayer player, int amount, BankItemType ore) {
         if (!economy.hasAccount(player))
             economy.createPlayerAccount(player);
 
+        long depositAmount = 0;
         for (int i = 0; i < amount; i++) {
-            economy.depositPlayer(player, calculateOreWorth(ore));
+            depositAmount += calculateOreWorth(ore);
             switch (ore) {
                 case IRON:
                     iron += 1;
@@ -100,7 +99,9 @@ public final class MoneyManager {
                     break;
             }
         }
+        economy.depositPlayer(player, depositAmount);
         saveConfig();
+        return depositAmount;
     }
 
     // Save money.yml

@@ -4,6 +4,7 @@ import net.almostmc.FiatMachine.BankItemType;
 import net.almostmc.FiatMachine.GUI.ChestGUIBuilder;
 import net.almostmc.FiatMachine.GUI.ChestSize;
 import net.almostmc.FiatMachine.MoneyManager;
+import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -165,15 +166,22 @@ public class BankCommand implements CommandExecutor {
                             (event.item.equals(ore10)) ||
                             (event.item.equals(ore64)) ||
                             (event.item.equals(block1)) ||
-                            (event.item.equals(block10)))
+                            (event.item.equals(block10))) {
                         if (playerHas(event.clicker.getInventory(), event.item.getType(), event.item.getAmount())) {
                             // Close the player inventory once they purchase an item
                             event.clicker.closeInventory();
                             // Remove the items from the player inventory
                             removeFromPlayerInv(event.clicker.getInventory(), event.item.getType(), event.item.getAmount());
                             // Convert the item amount to money
-                            MoneyManager.sellOre(event.clicker, event.item.getAmount(), event.item.getType());
+                            long amountAdded = MoneyManager.sellOre(event.clicker, event.item.getAmount(), event.item.getType());
+                            event.clicker.sendMessage(ChatColor.GREEN + "Success! "
+                                    + ChatColor.GOLD + amountAdded + " dollars "
+                                    + ChatColor.GREEN + "added to your balance.");
+                        } else {
+                            event.clicker.sendMessage(ChatColor.RED + "Failure. You do not have enough "
+                                    + event.item.getType().toString() + " in your inventory.");
                         }
+                    }
                 }).RegisterOnCloseHandler(ChestGUIBuilder::Destroy)
                 .ToInventory();
         player.openInventory(menu);
