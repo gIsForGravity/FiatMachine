@@ -4,6 +4,7 @@ import net.almostmc.FiatMachine.FiatPlugin;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -33,8 +34,8 @@ public class ChestGUIBuilder implements Listener {
 
     private Inventory inventory;
 
-    private List<Handler<ChestGUIClickEvent>> onClickHandlers = new ArrayList<>();
-    private List<Handler<ChestGUIBuilder>> onCloseHandlers = new ArrayList<>();
+    private final List<Handler<ChestGUIClickEvent>> onClickHandlers = new ArrayList<>();
+    private final List<Handler<ChestGUIBuilder>> onCloseHandlers = new ArrayList<>();
 
     public ChestGUIBuilder SetItem(final ItemStack item, int slot) {
         inventory.setItem(slot, item);
@@ -56,23 +57,27 @@ public class ChestGUIBuilder implements Listener {
     }
 
     public void Destroy() {
-        onClickHandlers = null;
         HandlerList.unregisterAll(this);
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST)
     private void onInventoryClick(InventoryClickEvent event) {
         if (Objects.equals(event.getClickedInventory(), inventory)) {
+            var guiEvent = new ChestGUIClickEvent(event.getCurrentItem(), (Player) event.getWhoClicked(), true);
             for (Handler<ChestGUIClickEvent> eventHandler : onClickHandlers) {
-                eventHandler.onEvent(new ChestGUIClickEvent(event.getCurrentItem(), (Player) event.getWhoClicked()));
+                eventHandler.onEvent(guiEvent);
             }
+
+            event.setCancelled(guiEvent.canceled);
         }
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST)
     private void onInventoryClose(InventoryCloseEvent event) {
         if (Objects.equals(event.getInventory(), inventory)) {
-
+            for (Handler<ChestGUIBuilder> eventHandler : onCloseHandlers) {
+                eventHandler.onEvent(this);
+            }
         }
     }
 }
