@@ -11,7 +11,7 @@ import java.util.logging.Level;
 
 public final class MoneyManager {
     // When MoneyManager is first called, initialize everything
-    static {
+    public static void Initialize() {
         // Load config into memory
         FileConfiguration config = new ConfigurationBuilder("money.yml").Build();
 
