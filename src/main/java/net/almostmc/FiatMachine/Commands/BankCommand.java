@@ -167,8 +167,11 @@ public class BankCommand implements CommandExecutor {
                             (event.item.equals(block1)) ||
                             (event.item.equals(block10)))
                         if (playerHas(event.clicker.getInventory(), event.item.getType(), event.item.getAmount())) {
+                            // Close the player inventory once they purchase an item
                             event.clicker.closeInventory();
-
+                            // Remove the items from the player inventory
+                            removeFromPlayerInv(event.clicker.getInventory(), event.item.getType(), event.item.getAmount());
+                            // Convert the item amount to money
                             MoneyManager.sellOre(event.clicker, event.item.getAmount(), event.item.getType());
                         }
                 }).RegisterOnCloseHandler(ChestGUIBuilder::Destroy)
