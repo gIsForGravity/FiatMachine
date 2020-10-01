@@ -41,11 +41,6 @@ public class ChestGUIBuilder implements Listener {
         return this;
     }
 
-    public ChestGUIBuilder RemoveItem(int slot) {
-        inventory.clear(slot);
-        return this;
-    }
-
     public ChestGUIBuilder RegisterOnClickHandler(final Handler<ChestGUIClickEvent> onClick) {
         onClickHandlers.add(onClick);
         return this;
