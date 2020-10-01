@@ -1,4 +1,4 @@
-package net.almostmc.FiatMachine.Commands;
+package net.almostmc.FiatMachine;
 
 import net.almostmc.FiatMachine.BankItemType;
 import net.almostmc.FiatMachine.GUI.ChestGUIBuilder;
@@ -15,7 +15,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
 
-public class BankCommand implements CommandExecutor {
+class BankCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, String[] args) {
