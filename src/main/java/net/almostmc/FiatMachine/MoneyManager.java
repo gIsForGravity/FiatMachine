@@ -13,7 +13,7 @@ public final class MoneyManager {
     // When MoneyManager is first called, initialize everything
     public static void Initialize() {
         // Load config into memory
-        FileConfiguration config = new ConfigurationBuilder("money.yml").Build();
+        ConfigFile config = new ConfigFile("money.yml");
 
         // Initialize iron, gold, and diamond values to the values in the config
         if (config.contains("iron"))
@@ -46,7 +46,7 @@ public final class MoneyManager {
     private static long diamond;
 
     // Used to save iron, gold, and diamond data
-    private static FileConfiguration config;
+    private static ConfigFile config;
     // Used to manage player money
     private static Economy economy;
 
