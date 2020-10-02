@@ -18,4 +18,9 @@ public class FiatPlugin extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new WorldSaveEventListener(), this);
         MoneyManager.Initialize();
     }
+
+    @Override
+    public void onDisable() {
+        MoneyManager.saveValues();
+    }
 }
