@@ -131,4 +131,8 @@ public final class MoneyManager {
         // Calculate how much an ore is worth with the current values and round it
         return Math.round(((double) 50/(double) 16129)*(double) amount*2-((double)12800/(double)16129)*amount+((double) 1625650/(double) 16129));
     }
+
+    public static void saveValues() {
+        config.save();
+    }
 }

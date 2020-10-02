@@ -15,6 +15,7 @@ public class FiatPlugin extends JavaPlugin {
     @Override
     public void onEnable() {
         Objects.requireNonNull(getServer().getPluginCommand("bank")).setExecutor(new BankCommand());
+        getServer().getPluginManager().registerEvents(new WorldSaveEventListener(), this);
         MoneyManager.Initialize();
     }
 }
