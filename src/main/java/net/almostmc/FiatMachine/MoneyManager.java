@@ -4,7 +4,6 @@ import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.RegisteredServiceProvider;
 
 import java.util.logging.Level;
@@ -86,7 +85,6 @@ public final class MoneyManager {
 
         long depositAmount = 0;
         for (int i = 0; i < amount; i++) {
-            depositAmount += calculateOreWorth(ore);
             switch (ore) {
                 case IRON:
                     iron += 1;
@@ -98,6 +96,7 @@ public final class MoneyManager {
                     diamond += 1;
                     break;
             }
+            depositAmount += calculateOreWorth(ore);
         }
         economy.depositPlayer(player, depositAmount);
         saveConfig();
@@ -109,6 +108,7 @@ public final class MoneyManager {
         config.set("iron", iron);
         config.set("gold", gold);
         config.set("diamond", diamond);
+        saveValues();
     }
 
     // Use quadratic equation to calculate how much an ore is worth
@@ -128,8 +128,14 @@ public final class MoneyManager {
                 throw new IllegalStateException("Unexpected value: " + ore);
         }
 
-        // Calculate how much an ore is worth with the current values and round it
-        return Math.round(((double) 50/(double) 16129)*(double) amount*2-((double)12800/(double)16129)*amount+((double) 1625650/(double) 16129));
+        if (amount <= 640)
+            return ((((500L/136107L)*amount)*amount)-((640000L/136107L)*amount))+(272853500L/136107L);
+        else if (amount <= 6400)
+        // y = (-5/64)x + 550
+            return ((-5L/64L)*amount) + 550;
+        else
+        // y = 50
+            return 50L;
     }
 
     public static void saveValues() {

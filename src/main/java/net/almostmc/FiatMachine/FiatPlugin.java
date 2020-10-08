@@ -1,5 +1,6 @@
 package net.almostmc.FiatMachine;
 
+import org.bukkit.WorldType;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.Objects;
